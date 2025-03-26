@@ -38,6 +38,11 @@ impl Instrumentation {
         }
     }
 
+    pub(crate) fn reset(&mut self) {
+        self.count = 0;
+        self.is_correct_class = false;
+    }
+
     fn new_fn(&self, body: BlockStmt) -> ArrowExpr {
         ArrowExpr {
             params: vec![],
@@ -70,7 +75,9 @@ impl Instrumentation {
         define_channel
     }
 
-    fn insert_tracing(&self, body: &mut BlockStmt) {
+    fn insert_tracing(&mut self, body: &mut BlockStmt) {
+        self.count += 1;
+
         let original_stmts = std::mem::take(&mut body.stmts);
 
         // Create a new BlockStmt with the original statements
@@ -102,7 +109,9 @@ impl Instrumentation {
         ];
     }
 
-    fn insert_constructor_tracing(&self, body: &mut BlockStmt) {
+    fn insert_constructor_tracing(&mut self, body: &mut BlockStmt) {
+        self.count += 1;
+
         let original_stmts = std::mem::take(&mut body.stmts);
 
         let ch_ident = ident!(format!("tr_ch_apm${}", &self.config.channel_name));

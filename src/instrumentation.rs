@@ -166,7 +166,7 @@ impl Instrumentation {
         if self
             .config
             .function_query
-            .matches_expr(func_expr, &mut self.count, name.as_ref())
+            .matches_expr(&mut self.count, name.as_ref())
             && func_expr.function.body.is_some()
         {
             if let Some(body) = func_expr.function.body.as_mut() {
@@ -251,7 +251,7 @@ impl Instrumentation {
         if self
             .config
             .function_query
-            .matches_method(&node.function, &mut self.count, name.as_ref())
+            .matches_method(&mut self.count, name.as_ref())
             && node.function.body.is_some()
         {
             if let Some(body) = node.function.body.as_mut() {
@@ -284,7 +284,7 @@ impl Instrumentation {
         if self
             .config
             .function_query
-            .matches_method(&node.function, &mut self.count, name.as_ref())
+            .matches_method(&mut self.count, name.as_ref())
             && node.function.body.is_some()
         {
             if let Some(body) = node.function.body.as_mut() {

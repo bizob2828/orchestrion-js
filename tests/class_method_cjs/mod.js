@@ -7,10 +7,9 @@ class UndiciBase {
         return 42;
     }
 }
-class Undici extends UndiciBase {
+module.exports = class Undici extends UndiciBase {
     async fetch (url) {
         return super.fetch(url);
     }
-}
+};
 
-module.exports = Undici;

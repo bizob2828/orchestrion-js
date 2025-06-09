@@ -27,8 +27,8 @@ use swc_core::{
     common::{comments::Comments, errors::ColorConfig, FileName, FilePathMapping},
     ecma::{
         ast::{
-            AssignExpr, ClassDecl, ClassMethod, ClassExpr, Constructor, EsVersion, FnDecl, MethodProp, Module,
-            Script, Str, VarDecl,
+            AssignExpr, ClassDecl, ClassExpr, ClassMethod, Constructor, EsVersion, FnDecl,
+            MethodProp, Module, Script, Str, VarDecl,
         },
         visit::{VisitMut, VisitMutWith},
     },

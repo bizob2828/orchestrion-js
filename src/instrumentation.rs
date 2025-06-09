@@ -7,9 +7,9 @@ use std::path::PathBuf;
 use swc_core::common::{Span, SyntaxContext};
 use swc_core::ecma::{
     ast::{
-        ArrowExpr, AssignExpr, AssignTarget, BlockStmt, ClassDecl, ClassExpr, ClassMethod, Constructor, Expr,
-        FnDecl, FnExpr, Ident, Lit, MemberProp, MethodProp, Module, ModuleItem, Pat, PropName,
-        Script, SimpleAssignTarget, Stmt, Str, VarDecl,
+        ArrowExpr, AssignExpr, AssignTarget, BlockStmt, ClassDecl, ClassExpr, ClassMethod,
+        Constructor, Expr, FnDecl, FnExpr, Ident, Lit, MemberProp, MethodProp, Module, ModuleItem,
+        Pat, PropName, Script, SimpleAssignTarget, Stmt, Str, VarDecl,
     },
     atoms::Atom,
 };
@@ -236,17 +236,13 @@ impl Instrumentation {
             .is_none_or(|class| node.ident.sym.as_ref() == class);
         true
     }
-    
+
     pub fn visit_mut_class_expr(&mut self, node: &mut ClassExpr) -> bool {
-        self.is_correct_class = self
-            .config
-            .function_query
-            .class_name()
-            .is_none_or(|class| {
+        self.is_correct_class = self.config.function_query.class_name().is_none_or(|class| {
             node.ident
                 .as_ref()
-                .map_or(false, |ident| ident.sym.as_ref() == class)
-            });
+                .is_some_and(|ident| ident.sym.as_ref() == class)
+        });
         true
     }
 

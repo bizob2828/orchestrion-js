@@ -27,8 +27,8 @@ use swc_core::{
     common::{comments::Comments, errors::ColorConfig, FileName, FilePathMapping},
     ecma::{
         ast::{
-            AssignExpr, ClassDecl, ClassMethod, Constructor, EsVersion, FnDecl, MethodProp, Module,
-            Script, Str, VarDecl,
+            AssignExpr, ClassDecl, ClassExpr, ClassMethod, Constructor, EsVersion, FnDecl,
+            MethodProp, Module, Script, Str, VarDecl,
         },
         visit::{VisitMut, VisitMutWith},
     },
@@ -227,6 +227,7 @@ impl VisitMut for InstrumentationVisitor {
     visit_with_all_fn!(visit_mut_method_prop, MethodProp);
     visit_with_all_fn!(visit_mut_assign_expr, AssignExpr);
     visit_with_all_fn!(visit_mut_class_decl, ClassDecl);
+    visit_with_all_fn!(visit_mut_class_expr, ClassExpr);
     visit_with_all_fn!(visit_mut_class_method, ClassMethod);
     visit_with_all_fn!(visit_mut_constructor, Constructor);
 }

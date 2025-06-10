@@ -4,6 +4,7 @@
  **/
 mod common;
 
+mod class_expression_cjs;
 mod class_method_cjs;
 mod constructor_cjs;
 mod constructor_mjs;

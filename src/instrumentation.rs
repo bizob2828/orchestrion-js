@@ -119,7 +119,6 @@ impl Instrumentation {
 
         let traced_fn = self.new_fn(traced_body, vec![]);
 
-
         let id_name = self.config.get_identifier_name();
         let ch_ident = ident!(format!("tr_ch_apm${}", &id_name));
         let trace_ident = ident!(format!(

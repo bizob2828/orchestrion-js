@@ -20,3 +20,4 @@ mod multiple_load_cjs;
 mod object_method_cjs;
 mod polyfill_cjs;
 mod polyfill_mjs;
+mod nested_functions;

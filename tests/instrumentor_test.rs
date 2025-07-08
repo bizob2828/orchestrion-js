@@ -17,6 +17,7 @@ mod index_cjs;
 mod injection_failure;
 mod multiple_class_method_cjs;
 mod multiple_load_cjs;
+mod nested_functions;
 mod object_method_cjs;
 mod polyfill_cjs;
 mod polyfill_mjs;

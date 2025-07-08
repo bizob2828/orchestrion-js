@@ -226,7 +226,7 @@ impl Instrumentation {
                 self.insert_tracing(body);
             }
         }
-        false
+        true
     }
 
     pub fn visit_mut_var_decl(&mut self, node: &mut VarDecl) -> bool {

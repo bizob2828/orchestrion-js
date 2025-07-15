@@ -28,8 +28,12 @@ export class Up {
         }
     }
     fetch() {
+        const __apm$original_args = arguments;
         const __apm$traced = ()=>{
-            console.log('fetch');
+            const __apm$wrapped = ()=>{
+                console.log('fetch');
+            };
+            return __apm$wrapped.apply(null, __apm$original_args);
         };
         if (!tr_ch_apm$up_fetch.hasSubscribers) return __apm$traced();
         return tr_ch_apm$up_fetch.traceSync(__apm$traced, {

@@ -37,7 +37,6 @@ assert.strictEqual(output, expected.toString('utf8'));
 const originalCjs = await fs.readFile(path.join(import.meta.dirname, './testdata/original-cjs.js'))
 const outputCjs = matchedTransforms.transform(originalCjs.toString('utf8'), 'cjs');
 
-
 const expectedCjs = await fs.readFile(path.join(import.meta.dirname, './testdata/expected-cjs.js'))
 assert.strictEqual(outputCjs, expectedCjs.toString('utf8'));
 

@@ -17,6 +17,7 @@ pub(crate) enum FunctionType {
 pub enum FunctionKind {
     Sync,
     Async,
+    Callback,
 }
 
 impl FunctionKind {
@@ -30,6 +31,7 @@ impl FunctionKind {
         match self {
             FunctionKind::Sync => "traceSync",
             FunctionKind::Async => "tracePromise",
+            FunctionKind::Callback => "traceCallback",
         }
     }
 }

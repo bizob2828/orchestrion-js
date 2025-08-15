@@ -18,6 +18,15 @@ const instrumentor = create([
             kind: "Sync",
         },
     },
+    {
+        channelName: "up:cb",
+        module: { name: "one", versionRange: ">=1", filePath: "index.js" },
+        functionQuery: {
+            className: "Up",
+            methodName: "cb",
+            kind: "Callback",
+        },
+    },
 ]);
 
 const matchedTransforms = instrumentor.getTransformer(

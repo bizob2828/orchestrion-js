@@ -6,4 +6,8 @@ export class Up {
 	fetch() {
 		console.log('fetch')
 	}
+  
+  cb(args, callback) {
+    callback(null, args)
+  }
 }

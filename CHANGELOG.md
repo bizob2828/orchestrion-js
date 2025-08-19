@@ -1,3 +1,9 @@
+## 0.7.0
+
+- feat: Sourcemap support (#16)
+- feat: Update all dependencies (#24)
+- feat: Include module version in event args (#23)
+
 ## 0.6.0
 
 - fix: Allow for argumentation mutation in complex argument functions (#19)

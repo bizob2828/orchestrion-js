@@ -9,18 +9,22 @@
   "files": [
     "./pkg/orchestrion_js.js",
     "./pkg/orchestrion_js.d.ts",
+    "./index.js",
+    "./index.d.ts",
     "LICENSE",
     "NOTICE"
   ],
-  "main": "./pkg/orchestrion_js.js",
-  "types": "./pkg/orchestrion_js.d.ts",
+  "main": "./index.js",
+  "types": "./index.d.ts",
   "scripts": {
-    "build": "wasm-pack build --target nodejs --release -- --features wasm",
-    "postbuild": "node inline-binary.js",
+    "build": "wasm-pack build --target nodejs --release -- --features wasm && yarn build:wrapper && yarn build:inline-binary",
+    "build:wrapper": "tsc index.ts --declaration --module commonjs",
+    "build:inline-binary": "node inline-binary.js",
     "test": "vitest run",
     "test:watch": "vitest"
   },
   "devDependencies": {
+    "@types/node": "^18.0.0",
     "source-map": "^0.7.6",
     "typescript": "^5.8.3",
     "vitest": "^3.2.4",

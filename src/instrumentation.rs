@@ -85,7 +85,7 @@ impl Instrumentation {
         define_channel
     }
 
-    fn insert_tracing(&mut self, body: &mut BlockStmt, params: &[Param]) {
+    fn insert_tracing(&mut self, body: &mut BlockStmt, params: &[Param], is_async: bool) {
         self.count += 1;
 
         let original_stmts = std::mem::take(&mut body.stmts);
@@ -99,7 +99,7 @@ impl Instrumentation {
 
         let original_params: Vec<Pat> = params.iter().map(|p| p.pat.clone()).collect();
 
-        let wrapped_fn = new_fn(original_body, original_params);
+        let wrapped_fn = new_fn(original_body, original_params, is_async);
 
         let traced_body = BlockStmt {
             span: Span::default(),
@@ -110,7 +110,7 @@ impl Instrumentation {
             ],
         };
 
-        let traced_fn = new_fn(traced_body, vec![]);
+        let traced_fn = new_fn(traced_body, vec![], is_async);
 
         let id_name = self.config.get_identifier_name();
         let ch_ident = ident!(format!("tr_ch_apm${}", &id_name));
@@ -208,7 +208,11 @@ impl Instrumentation {
             && func_expr.function.body.is_some()
         {
             if let Some(body) = func_expr.function.body.as_mut() {
-                self.insert_tracing(body, &func_expr.function.params);
+                self.insert_tracing(
+                    body,
+                    &func_expr.function.params,
+                    func_expr.function.is_async,
+                );
             }
             true
         } else {
@@ -246,7 +250,7 @@ impl Instrumentation {
             && node.function.body.is_some()
         {
             if let Some(body) = node.function.body.as_mut() {
-                self.insert_tracing(body, &node.function.params);
+                self.insert_tracing(body, &node.function.params, node.function.is_async);
             }
         }
         true
@@ -302,7 +306,7 @@ impl Instrumentation {
             && node.function.body.is_some()
         {
             if let Some(body) = node.function.body.as_mut() {
-                self.insert_tracing(body, &node.function.params);
+                self.insert_tracing(body, &node.function.params, node.function.is_async);
             }
         }
         true
@@ -335,7 +339,7 @@ impl Instrumentation {
             && node.function.body.is_some()
         {
             if let Some(body) = node.function.body.as_mut() {
-                self.insert_tracing(body, &node.function.params);
+                self.insert_tracing(body, &node.function.params, node.function.is_async);
             }
         }
         false
@@ -387,15 +391,11 @@ pub fn get_script_start_index(script: &Script) -> usize {
 }
 
 #[must_use]
-pub fn new_fn(body: BlockStmt, params: Vec<Pat>) -> ArrowExpr {
+pub fn new_fn(body: BlockStmt, params: Vec<Pat>, is_async: bool) -> ArrowExpr {
     ArrowExpr {
         params,
         body: Box::new(body.into()),
-        // if we set this to `true` and it's an async function,
-        // it will wrap the original promise in a new native one
-        // which may not be semantically correct in cases where custom
-        // promises are returned
-        is_async: false,
+        is_async,
         is_generator: false,
         type_params: None,
         return_type: None,

@@ -19,6 +19,24 @@ describe('Orchestrion JS Transformer', () => {
                 kind: "Sync",
             },
         },
+        {
+            channelName: "up:asyncFetch",
+            module: { name: "one", versionRange: ">=1", filePath: "index.js" },
+            functionQuery: {
+                className: "Up",
+                methodName: "asyncFetch",
+                kind: "Async",
+            },
+        },
+        {
+            channelName: "up:asyncGet",
+            module: { name: "one", versionRange: ">=1", filePath: "index.js" },
+            functionQuery: {
+                className: "Up",
+                methodName: "get",
+                kind: "Async",
+            },
+        },
     ]);
 
     const matchedTransforms = instrumentor.getTransformer(
@@ -40,6 +58,9 @@ describe('Orchestrion JS Transformer', () => {
 	fetch() {
 		console.log('fetch')
 	}
+
+  async asyncFetch() {}
+  get() {}
 }`;
 
         const output = matchedTransforms.transform(originalEsm, 'esm');
@@ -55,13 +76,16 @@ describe('Orchestrion JS Transformer', () => {
 	fetch() {
 		console.log('fetch')
 	}
+
+  async asyncFetch() {}
+  get() {}
 }
 
 `;
         const outputCjs = matchedTransforms.transform(originalCjs, 'cjs');
         expect(outputCjs).toMatchSnapshot();
     });
-
+    
     test('should transform TypeScript with source map correctly', async () => {
         const originalTypescript = `type Url = { href: string };
 
@@ -72,6 +96,8 @@ export class Up {
     fetch(url: Url): void {
         console.log('fetch');
     }
+    async asyncFetch(): void {}
+    get(): void {}
 }`;
 
         const { outputText: outputJavaScript, sourceMapText: originalTypescriptSourceMap } = tsc.transpileModule(originalTypescript, {
@@ -94,7 +120,7 @@ export class Up {
 
         const originalPosition = sourceMapConsumer.originalPositionFor({
             // This is the position of the fetch function in the transformed JavaScript
-            line: 31,
+            line: 33,
             column: 4,
         });
 
@@ -114,10 +140,12 @@ export class Up {
 	fetch() {
 		console.log('fetch')
 	}
+  async asyncFetch() {}
+  get() {}
 }`;
 
         expect(() => {
             matchedTransforms.transform(noMatchSource, 'unknown');
-        }).toThrow('Failed to find injection points for: ["constructor", "fetch"]');
+        }).toThrow('Failed to find injection points for: ["constructor", "fetch", "asyncFetch", "get"]');
     });
 });

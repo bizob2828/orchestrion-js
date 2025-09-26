@@ -21,6 +21,7 @@
     "build:wrapper": "tsc index.ts --declaration --module commonjs",
     "build:inline-binary": "node inline-binary.js",
     "test": "vitest run",
+    "test:update-snapshots": "vitest -u run",
     "test:watch": "vitest"
   },
   "devDependencies": {

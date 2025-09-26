@@ -3,6 +3,8 @@
 exports[`Orchestrion JS Transformer > should transform CommonJS module correctly 1`] = `
 {
   "code": "const { tracingChannel: tr_ch_apm_tracingChannel } = require("diagnostics_channel");
+const tr_ch_apm$up_asyncGet = tr_ch_apm_tracingChannel("orchestrion:one:up:asyncGet");
+const tr_ch_apm$up_asyncFetch = tr_ch_apm_tracingChannel("orchestrion:one:up:asyncFetch");
 const tr_ch_apm$up_fetch = tr_ch_apm_tracingChannel("orchestrion:one:up:fetch");
 const tr_ch_apm$up_constructor = tr_ch_apm_tracingChannel("orchestrion:one:up:constructor");
 module.exports = class Up {
@@ -47,6 +49,32 @@ module.exports = class Up {
             moduleVersion: "1.0.0"
         });
     }
+    async asyncFetch() {
+        const __apm$original_args = arguments;
+        const __apm$traced = async ()=>{
+            const __apm$wrapped = async ()=>{};
+            return __apm$wrapped.apply(null, __apm$original_args);
+        };
+        if (!tr_ch_apm$up_asyncFetch.hasSubscribers) return __apm$traced();
+        return tr_ch_apm$up_asyncFetch.tracePromise(__apm$traced, {
+            arguments,
+            self: this,
+            moduleVersion: "1.0.0"
+        });
+    }
+    get() {
+        const __apm$original_args = arguments;
+        const __apm$traced = ()=>{
+            const __apm$wrapped = ()=>{};
+            return __apm$wrapped.apply(null, __apm$original_args);
+        };
+        if (!tr_ch_apm$up_asyncGet.hasSubscribers) return __apm$traced();
+        return tr_ch_apm$up_asyncGet.tracePromise(__apm$traced, {
+            arguments,
+            self: this,
+            moduleVersion: "1.0.0"
+        });
+    }
 };
 ",
   "map": undefined,
@@ -56,6 +84,8 @@ module.exports = class Up {
 exports[`Orchestrion JS Transformer > should transform ESM module correctly 1`] = `
 {
   "code": "import { tracingChannel as tr_ch_apm_tracingChannel } from "diagnostics_channel";
+const tr_ch_apm$up_asyncGet = tr_ch_apm_tracingChannel("orchestrion:one:up:asyncGet");
+const tr_ch_apm$up_asyncFetch = tr_ch_apm_tracingChannel("orchestrion:one:up:asyncFetch");
 const tr_ch_apm$up_fetch = tr_ch_apm_tracingChannel("orchestrion:one:up:fetch");
 const tr_ch_apm$up_constructor = tr_ch_apm_tracingChannel("orchestrion:one:up:constructor");
 export class Up {
@@ -100,6 +130,32 @@ export class Up {
             moduleVersion: "1.0.0"
         });
     }
+    async asyncFetch() {
+        const __apm$original_args = arguments;
+        const __apm$traced = async ()=>{
+            const __apm$wrapped = async ()=>{};
+            return __apm$wrapped.apply(null, __apm$original_args);
+        };
+        if (!tr_ch_apm$up_asyncFetch.hasSubscribers) return __apm$traced();
+        return tr_ch_apm$up_asyncFetch.tracePromise(__apm$traced, {
+            arguments,
+            self: this,
+            moduleVersion: "1.0.0"
+        });
+    }
+    get() {
+        const __apm$original_args = arguments;
+        const __apm$traced = ()=>{
+            const __apm$wrapped = ()=>{};
+            return __apm$wrapped.apply(null, __apm$original_args);
+        };
+        if (!tr_ch_apm$up_asyncGet.hasSubscribers) return __apm$traced();
+        return tr_ch_apm$up_asyncGet.tracePromise(__apm$traced, {
+            arguments,
+            self: this,
+            moduleVersion: "1.0.0"
+        });
+    }
 }
 ",
   "map": undefined,
@@ -109,6 +165,8 @@ export class Up {
 exports[`Orchestrion JS Transformer > should transform TypeScript with source map correctly 1`] = `
 {
   "code": "import { tracingChannel as tr_ch_apm_tracingChannel } from "diagnostics_channel";
+const tr_ch_apm$up_asyncGet = tr_ch_apm_tracingChannel("orchestrion:one:up:asyncGet");
+const tr_ch_apm$up_asyncFetch = tr_ch_apm_tracingChannel("orchestrion:one:up:asyncFetch");
 const tr_ch_apm$up_fetch = tr_ch_apm_tracingChannel("orchestrion:one:up:fetch");
 const tr_ch_apm$up_constructor = tr_ch_apm_tracingChannel("orchestrion:one:up:constructor");
 export class Up {
@@ -153,8 +211,34 @@ export class Up {
             moduleVersion: "1.0.0"
         });
     }
+    async asyncFetch() {
+        const __apm$original_args = arguments;
+        const __apm$traced = async ()=>{
+            const __apm$wrapped = async ()=>{};
+            return __apm$wrapped.apply(null, __apm$original_args);
+        };
+        if (!tr_ch_apm$up_asyncFetch.hasSubscribers) return __apm$traced();
+        return tr_ch_apm$up_asyncFetch.tracePromise(__apm$traced, {
+            arguments,
+            self: this,
+            moduleVersion: "1.0.0"
+        });
+    }
+    get() {
+        const __apm$original_args = arguments;
+        const __apm$traced = ()=>{
+            const __apm$wrapped = ()=>{};
+            return __apm$wrapped.apply(null, __apm$original_args);
+        };
+        if (!tr_ch_apm$up_asyncGet.hasSubscribers) return __apm$traced();
+        return tr_ch_apm$up_asyncGet.tracePromise(__apm$traced, {
+            arguments,
+            self: this,
+            moduleVersion: "1.0.0"
+        });
+    }
 }
 ",
-  "map": "{"version":3,"file":"module.js","sources":["module.ts"],"sourceRoot":"","names":[],"mappings":";;;AAEA,MAAM,CAAA,MAAO,EAAE;IACX,aAAA;;;;;;;;;YACI,OAAO,CAAC,GAAG,CAAC,aAAa,CAAC,CAAC;;;;;;;;;;;;;;;;IAC/B,CAAC;IACD,KAAK,IAAS,EAAA;;;mCAAR;gBACF,OAAO,CAAC,GAAG,CAAC,OAAO,CAAC,CAAC;;;;;;;;;;IACzB,CAAC;CACJ"}",
+  "map": "{"version":3,"file":"module.js","sources":["module.ts"],"sourceRoot":"","names":[],"mappings":";;;;;AAEA,MAAM,CAAA,MAAO,EAAE;IACX,aAAA;;;;;;;;;YACI,OAAO,CAAC,GAAG,CAAC,aAAa,CAAC,CAAC;;;;;;;;;;;;;;;;IAC/B,CAAC;IACD,KAAK,IAAS,EAAA;;;mCAAR;gBACF,OAAO,CAAC,GAAG,CAAC,OAAO,CAAC,CAAC;;;;;;;;;;IACzB,CAAC;IACD,KAAK,CAAC,UAAU,GAAA;;;;;;;;;;;;IAAU,CAAC;IAC3B,GAAG,GAAA;;;;;;;;;;;;IAAU,CAAC;CACjB"}",
 }
 `;

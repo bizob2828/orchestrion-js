@@ -1,7 +1,4 @@
-# `@apm-js-collab/code-transformer`
-
-This is a fork of
-[`DataDog/orchestrion-js`](https://github.com/DataDog/orchestrion-js/).
+# Orchestrion-JS / `@apm-js-collab/code-transformer`
 
 This is a library to aid in instrumenting Node.js libraries at build or load
 time.

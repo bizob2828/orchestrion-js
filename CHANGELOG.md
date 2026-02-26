@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.9.0](https://github.com/nodejs/orchestrion-js/compare/code-transformer-v0.8.2...code-transformer-v0.9.0) (2026-02-26)
+
+
+### Features
+
+* Add support for matching export alias ([#29](https://github.com/nodejs/orchestrion-js/issues/29)) ([2169e27](https://github.com/nodejs/orchestrion-js/commit/2169e27fc29ad89cc8b6bbc4ece3be59ab0c87a6))
+* Added support for wrapping private class methods ([22d069d](https://github.com/nodejs/orchestrion-js/commit/22d069d23ea5fd1a4bc21f572b8febd6efae9c72))
+* Added support for wrapping private class methods ([e09e5af](https://github.com/nodejs/orchestrion-js/commit/e09e5af8b57c565abed561ba9a8a657f21c47086))
+* Added support for wrapping private class methods ([96f3d8e](https://github.com/nodejs/orchestrion-js/commit/96f3d8ee72962e651a553333f463b6c6b608487c))
+* Added support for wrapping private class methods ([eafebcd](https://github.com/nodejs/orchestrion-js/commit/eafebcd9e709b796dddcc94c381e4eca70600ea6))
+* Added support for wrapping private class methods ([d91c03d](https://github.com/nodejs/orchestrion-js/commit/d91c03d2de8715551a347f9aa7bb5883d6ddbe6b))
+* Added support for wrapping private class methods ([3b43b02](https://github.com/nodejs/orchestrion-js/commit/3b43b029c6ff58a3bd67c986fbd3c0fdd3cdaa7b))
+
 ## [0.8.2](https://github.com/apm-js-collab/orchestrion-js/compare/code-transformer-v0.8.1...code-transformer-v0.8.2) (2025-09-26)
 
 

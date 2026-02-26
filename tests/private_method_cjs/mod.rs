@@ -7,9 +7,9 @@ fn private_method_cjs() {
         file!(),
         false,
         Config::new_single(InstrumentationConfig::new(
-            "TestClass:privateMethod",
+            "TestClass:testMe",
             test_module_matcher(),
-            FunctionQuery::private_method("TestClass", "privateMethod", FunctionKind::Async),
+            FunctionQuery::private_method("TestClass", "testMe", FunctionKind::Async),
         )),
     );
 }

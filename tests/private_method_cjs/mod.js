@@ -3,12 +3,16 @@
  * This product includes software developed at Datadog (https://www.datadoghq.com/). Copyright 2025 Datadog, Inc.
  **/
 class TestClass {
-   async #privateMethod() {
+  constructor() {
+    this.prop = true
+  }
+
+   async #testMe() {
      return 42
    }
 
-  async publicMethod() {
-    return this.#privateMethod()
+  async testMe() {
+    return this.#testMe()
   }
 }
 

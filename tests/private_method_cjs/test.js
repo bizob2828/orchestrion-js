@@ -4,10 +4,10 @@
  **/
 const TestClass = require('./instrumented.js');
 const { assert, getContext } = require('../common/preamble.js');
-const context = getContext('orchestrion:undici:TestClass:privateMethod');
+const context = getContext('orchestrion:undici:TestClass:testMe');
 (async () => {
   const test = new TestClass;
-  const result = await test.publicMethod() 
+  const result = await test.testMe() 
   assert.strictEqual(result, 42);
   assert.deepStrictEqual(context, {
     start: true,

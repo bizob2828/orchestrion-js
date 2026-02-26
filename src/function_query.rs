@@ -97,7 +97,7 @@ pub enum FunctionQuery {
     },
     PrivateMethod {
         class_name: String,
-        method_name: String,
+        private_method_name: String,
         kind: FunctionKind,
         #[cfg_attr(feature = "serde", serde(default))]
         #[cfg_attr(feature = "wasm", tsify(optional))]
@@ -156,10 +156,10 @@ impl FunctionQuery {
     }
 
     #[must_use]
-    pub fn private_method(class_name: &str, method_name: &str, kind: FunctionKind) -> Self {
+    pub fn private_method(class_name: &str, private_method_name: &str, kind: FunctionKind) -> Self {
         FunctionQuery::PrivateMethod {
             class_name: class_name.to_string(),
-            method_name: method_name.to_string(),
+            private_method_name: private_method_name.to_string(),
             kind,
             index: 0,
         }
@@ -200,8 +200,8 @@ impl FunctionQuery {
         match self {
             FunctionQuery::ClassConstructor { .. } => "constructor",
             FunctionQuery::ClassMethod { method_name, .. }
-            | FunctionQuery::ObjectMethod { method_name, .. }
-            | FunctionQuery::PrivateMethod { method_name, .. } => method_name,
+            | FunctionQuery::ObjectMethod { method_name, .. } => method_name,
+            FunctionQuery::PrivateMethod { private_method_name, .. } => private_method_name,
             FunctionQuery::FunctionDeclaration { function_name, .. } => function_name,
             FunctionQuery::FunctionExpression {
                 expression_name, ..

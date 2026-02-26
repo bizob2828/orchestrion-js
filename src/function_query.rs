@@ -10,7 +10,7 @@ pub(crate) enum FunctionType {
     FunctionDeclaration,
     FunctionExpression,
     Method,
-    PrivateMethod
+    PrivateMethod,
 }
 
 /// The kind of function - Sync or returns a promise
@@ -201,7 +201,10 @@ impl FunctionQuery {
             FunctionQuery::ClassConstructor { .. } => "constructor",
             FunctionQuery::ClassMethod { method_name, .. }
             | FunctionQuery::ObjectMethod { method_name, .. } => method_name,
-            FunctionQuery::PrivateMethod { private_method_name, .. } => private_method_name,
+            FunctionQuery::PrivateMethod {
+                private_method_name,
+                ..
+            } => private_method_name,
             FunctionQuery::FunctionDeclaration { function_name, .. } => function_name,
             FunctionQuery::FunctionExpression {
                 expression_name, ..
@@ -306,7 +309,7 @@ impl FunctionQuery {
             matches!(self.typ(), FunctionType::Method) && name == self.name();
         self.maybe_increment_count(matches_except_count, count)
     }
-    
+
     pub fn matches_private_method(&self, count: &mut usize, name: &str) -> bool {
         let matches_except_count =
             matches!(self.typ(), FunctionType::PrivateMethod) && name == self.name();

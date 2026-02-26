@@ -59,6 +59,14 @@ pub enum FunctionQuery {
         #[cfg_attr(feature = "wasm", tsify(optional))]
         is_export_alias: bool,
     },
+    PrivateMethod {
+        class_name: String,
+        private_method_name: String,
+        kind: FunctionKind,
+        #[cfg_attr(feature = "serde", serde(default))]
+        #[cfg_attr(feature = "wasm", tsify(optional))]
+        index: usize,
+    },
     ClassConstructor {
         class_name: String,
         #[cfg_attr(feature = "serde", serde(default))]
@@ -95,14 +103,6 @@ pub enum FunctionQuery {
         #[cfg_attr(feature = "wasm", tsify(optional))]
         is_export_alias: bool,
     },
-    PrivateMethod {
-        class_name: String,
-        private_method_name: String,
-        kind: FunctionKind,
-        #[cfg_attr(feature = "serde", serde(default))]
-        #[cfg_attr(feature = "wasm", tsify(optional))]
-        index: usize,
-    }
 }
 
 impl FunctionQuery {

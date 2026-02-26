@@ -10,7 +10,7 @@ use swc_core::ecma::{
     ast::{
         ArrowExpr, AssignExpr, AssignTarget, BlockStmt, ClassDecl, ClassExpr, ClassMethod,
         Constructor, Expr, FnDecl, FnExpr, Ident, Lit, MemberProp, MethodProp, Module, ModuleItem,
-        Param, Pat, PropName, Script, SimpleAssignTarget, Stmt, Str, VarDecl,
+        Param, Pat, PropName, PrivateMethod, Script, SimpleAssignTarget, Stmt, Str, VarDecl,
     },
     atoms::Atom,
 };
@@ -310,7 +310,7 @@ impl Instrumentation {
         });
         true
     }
-
+    
     pub fn visit_mut_class_method(&mut self, node: &mut ClassMethod) -> bool {
         let name = match &node.key {
             PropName::Ident(ident) => ident.sym.clone(),
@@ -334,6 +334,28 @@ impl Instrumentation {
         }
         true
     }
+    
+    pub fn visit_mut_private_method(&mut self, node: &mut PrivateMethod) -> bool {
+        let name = node.key.name.clone();
+
+        // Only increment count when class matches
+        if !self.is_correct_class {
+            return true;
+        }
+
+        if self
+            .config
+            .function_query
+            .matches_private_method(&mut self.count, name.as_ref())
+            && node.function.body.is_some()
+        {
+            if let Some(body) = node.function.body.as_mut() {
+                self.insert_tracing(body, &node.function.params, node.function.is_async);
+            }
+        }
+        true
+    }
+
 
     pub fn visit_mut_constructor(&mut self, node: &mut Constructor) -> bool {
         if !self.is_correct_class || self.config.function_query.name() != "constructor" {

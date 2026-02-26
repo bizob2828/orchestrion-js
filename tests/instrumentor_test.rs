@@ -24,3 +24,4 @@ mod nested_functions;
 mod object_method_cjs;
 mod polyfill_cjs;
 mod polyfill_mjs;
+mod private_method_cjs;

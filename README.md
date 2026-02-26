@@ -129,6 +129,8 @@ type FunctionQuery =
     { functionName: string; kind: FunctionKind; index?: number; isExportAlias?: boolean }
     | // Match arrow function or function expression
     { expressionName: string; kind: FunctionKind; index?: number; isExportAlias?: boolean };
+    | // Match private class methods
+    { className: string; methodName: string; kind: FunctionKind; index?: number };
 ```
 
 #### **`ModuleMatcher`**

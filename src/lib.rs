@@ -29,8 +29,8 @@ use swc_core::{
     ecma::{
         ast::{
             AssignExpr, ClassDecl, ClassExpr, ClassMethod, Constructor, EsVersion, ExportSpecifier,
-            FnDecl, MethodProp, Module, ModuleDecl, ModuleExportName, ModuleItem, Script, Str,
-            VarDecl,
+            FnDecl, MethodProp, Module, ModuleDecl, ModuleExportName, ModuleItem, PrivateMethod,
+            Script, Str, VarDecl,
         },
         visit::{VisitMut, VisitMutWith},
     },
@@ -352,5 +352,6 @@ impl VisitMut for InstrumentationVisitor {
     visit_with_all_fn!(visit_mut_class_decl, ClassDecl);
     visit_with_all_fn!(visit_mut_class_expr, ClassExpr);
     visit_with_all_fn!(visit_mut_class_method, ClassMethod);
+    visit_with_all_fn!(visit_mut_private_method, PrivateMethod);
     visit_with_all_fn!(visit_mut_constructor, Constructor);
 }

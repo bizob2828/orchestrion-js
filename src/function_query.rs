@@ -10,6 +10,7 @@ pub(crate) enum FunctionType {
     FunctionDeclaration,
     FunctionExpression,
     Method,
+    PrivateMethod,
 }
 
 /// The kind of function - Sync or returns a promise
@@ -57,6 +58,14 @@ pub enum FunctionQuery {
         #[cfg_attr(feature = "serde", serde(default))]
         #[cfg_attr(feature = "wasm", tsify(optional))]
         is_export_alias: bool,
+    },
+    PrivateMethod {
+        class_name: String,
+        private_method_name: String,
+        kind: FunctionKind,
+        #[cfg_attr(feature = "serde", serde(default))]
+        #[cfg_attr(feature = "wasm", tsify(optional))]
+        index: usize,
     },
     ClassConstructor {
         class_name: String,
@@ -147,6 +156,16 @@ impl FunctionQuery {
     }
 
     #[must_use]
+    pub fn private_method(class_name: &str, private_method_name: &str, kind: FunctionKind) -> Self {
+        FunctionQuery::PrivateMethod {
+            class_name: class_name.to_string(),
+            private_method_name: private_method_name.to_string(),
+            kind,
+            index: 0,
+        }
+    }
+
+    #[must_use]
     pub fn as_export_alias(mut self) -> Self {
         match &mut self {
             FunctionQuery::ClassConstructor {
@@ -161,7 +180,7 @@ impl FunctionQuery {
             | FunctionQuery::FunctionExpression {
                 is_export_alias, ..
             } => *is_export_alias = true,
-            FunctionQuery::ObjectMethod { .. } => {}
+            FunctionQuery::ObjectMethod { .. } | FunctionQuery::PrivateMethod { .. } => {}
         }
         self
     }
@@ -172,7 +191,8 @@ impl FunctionQuery {
             FunctionQuery::ClassMethod { kind, .. }
             | FunctionQuery::ObjectMethod { kind, .. }
             | FunctionQuery::FunctionDeclaration { kind, .. }
-            | FunctionQuery::FunctionExpression { kind, .. } => kind,
+            | FunctionQuery::FunctionExpression { kind, .. }
+            | FunctionQuery::PrivateMethod { kind, .. } => kind,
         }
     }
 
@@ -181,6 +201,10 @@ impl FunctionQuery {
             FunctionQuery::ClassConstructor { .. } => "constructor",
             FunctionQuery::ClassMethod { method_name, .. }
             | FunctionQuery::ObjectMethod { method_name, .. } => method_name,
+            FunctionQuery::PrivateMethod {
+                private_method_name,
+                ..
+            } => private_method_name,
             FunctionQuery::FunctionDeclaration { function_name, .. } => function_name,
             FunctionQuery::FunctionExpression {
                 expression_name, ..
@@ -195,6 +219,7 @@ impl FunctionQuery {
             | FunctionQuery::ObjectMethod { .. } => FunctionType::Method,
             FunctionQuery::FunctionDeclaration { .. } => FunctionType::FunctionDeclaration,
             FunctionQuery::FunctionExpression { .. } => FunctionType::FunctionExpression,
+            FunctionQuery::PrivateMethod { .. } => FunctionType::PrivateMethod,
         }
     }
 
@@ -205,7 +230,8 @@ impl FunctionQuery {
             | FunctionQuery::ClassMethod { index, .. }
             | FunctionQuery::ObjectMethod { index, .. }
             | FunctionQuery::FunctionDeclaration { index, .. }
-            | FunctionQuery::FunctionExpression { index, .. } => *index,
+            | FunctionQuery::FunctionExpression { index, .. }
+            | FunctionQuery::PrivateMethod { index, .. } => *index,
         }
     }
 
@@ -213,7 +239,8 @@ impl FunctionQuery {
     pub(crate) fn class_name(&self) -> Option<&str> {
         match self {
             FunctionQuery::ClassConstructor { class_name, .. }
-            | FunctionQuery::ClassMethod { class_name, .. } => Some(class_name),
+            | FunctionQuery::ClassMethod { class_name, .. }
+            | FunctionQuery::PrivateMethod { class_name, .. } => Some(class_name),
             _ => None,
         }
     }
@@ -240,7 +267,7 @@ impl FunctionQuery {
                 is_export_alias,
                 ..
             } => Some((expression_name, *is_export_alias)),
-            FunctionQuery::ObjectMethod { .. } => None,
+            FunctionQuery::ObjectMethod { .. } | FunctionQuery::PrivateMethod { .. } => None,
         }
     }
 
@@ -280,6 +307,12 @@ impl FunctionQuery {
     pub fn matches_method(&self, count: &mut usize, name: &str) -> bool {
         let matches_except_count =
             matches!(self.typ(), FunctionType::Method) && name == self.name();
+        self.maybe_increment_count(matches_except_count, count)
+    }
+
+    pub fn matches_private_method(&self, count: &mut usize, name: &str) -> bool {
+        let matches_except_count =
+            matches!(self.typ(), FunctionType::PrivateMethod) && name == self.name();
         self.maybe_increment_count(matches_except_count, count)
     }
 }

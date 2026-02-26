@@ -37,6 +37,15 @@ describe('Orchestrion JS Transformer', () => {
                 kind: "Async",
             },
         },
+        {
+            channelName: "up:privateSend",
+            module: { name: "one", versionRange: ">=1", filePath: "index.js" },
+            functionQuery: {
+                className: "Up",
+                privateMethodName: "send",
+                kind: "Async",
+            },
+        },
     ]);
 
     const matchedTransforms = instrumentor.getTransformer(
@@ -61,6 +70,8 @@ describe('Orchestrion JS Transformer', () => {
 
   async asyncFetch() {}
   get() {}
+  async #send() {}
+  async send() {}
 }`;
 
         const output = matchedTransforms.transform(originalEsm, 'esm');
@@ -79,6 +90,8 @@ describe('Orchestrion JS Transformer', () => {
 
   async asyncFetch() {}
   get() {}
+  async #send() {}
+  async send() {}
 }
 
 `;
@@ -98,6 +111,8 @@ export class Up {
     }
     async asyncFetch(): void {}
     get(): void {}
+    async #send(): void {}
+    async send(): void {}
 }`;
 
         const { outputText: outputJavaScript, sourceMapText: originalTypescriptSourceMap } = tsc.transpileModule(originalTypescript, {
@@ -125,7 +140,7 @@ export class Up {
         });
 
         // This is the position of the fetch function in the original TypeScript
-        expect(originalPosition.line).toEqual(7);
+        expect(originalPosition.line).toEqual(6);
         expect(originalPosition.column).toEqual(4);
 
         sourceMapConsumer.destroy();
@@ -142,10 +157,12 @@ export class Up {
 	}
   async asyncFetch() {}
   get() {}
+  async #send() {}
+  async send() {}
 }`;
 
         expect(() => {
             matchedTransforms.transform(noMatchSource, 'unknown');
-        }).toThrow('Failed to find injection points for: ["constructor", "fetch", "asyncFetch", "get"]');
+        }).toThrow('Failed to find injection points for: ["constructor", "fetch", "asyncFetch", "get", "send"]');
     });
 });

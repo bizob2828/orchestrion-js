@@ -3,6 +3,7 @@
 exports[`Orchestrion JS Transformer > should transform CommonJS module correctly 1`] = `
 {
   "code": "const { tracingChannel: tr_ch_apm_tracingChannel } = require("diagnostics_channel");
+const tr_ch_apm$up_privateSend = tr_ch_apm_tracingChannel("orchestrion:one:up:privateSend");
 const tr_ch_apm$up_asyncGet = tr_ch_apm_tracingChannel("orchestrion:one:up:asyncGet");
 const tr_ch_apm$up_asyncFetch = tr_ch_apm_tracingChannel("orchestrion:one:up:asyncFetch");
 const tr_ch_apm$up_fetch = tr_ch_apm_tracingChannel("orchestrion:one:up:fetch");
@@ -75,6 +76,20 @@ module.exports = class Up {
             moduleVersion: "1.0.0"
         });
     }
+    async #send() {
+        const __apm$original_args = arguments;
+        const __apm$traced = async ()=>{
+            const __apm$wrapped = async ()=>{};
+            return __apm$wrapped.apply(null, __apm$original_args);
+        };
+        if (!tr_ch_apm$up_privateSend.hasSubscribers) return __apm$traced();
+        return tr_ch_apm$up_privateSend.tracePromise(__apm$traced, {
+            arguments,
+            self: this,
+            moduleVersion: "1.0.0"
+        });
+    }
+    async send() {}
 };
 ",
   "map": undefined,
@@ -84,6 +99,7 @@ module.exports = class Up {
 exports[`Orchestrion JS Transformer > should transform ESM module correctly 1`] = `
 {
   "code": "import { tracingChannel as tr_ch_apm_tracingChannel } from "diagnostics_channel";
+const tr_ch_apm$up_privateSend = tr_ch_apm_tracingChannel("orchestrion:one:up:privateSend");
 const tr_ch_apm$up_asyncGet = tr_ch_apm_tracingChannel("orchestrion:one:up:asyncGet");
 const tr_ch_apm$up_asyncFetch = tr_ch_apm_tracingChannel("orchestrion:one:up:asyncFetch");
 const tr_ch_apm$up_fetch = tr_ch_apm_tracingChannel("orchestrion:one:up:fetch");
@@ -156,6 +172,20 @@ export class Up {
             moduleVersion: "1.0.0"
         });
     }
+    async #send() {
+        const __apm$original_args = arguments;
+        const __apm$traced = async ()=>{
+            const __apm$wrapped = async ()=>{};
+            return __apm$wrapped.apply(null, __apm$original_args);
+        };
+        if (!tr_ch_apm$up_privateSend.hasSubscribers) return __apm$traced();
+        return tr_ch_apm$up_privateSend.tracePromise(__apm$traced, {
+            arguments,
+            self: this,
+            moduleVersion: "1.0.0"
+        });
+    }
+    async send() {}
 }
 ",
   "map": undefined,
@@ -165,6 +195,7 @@ export class Up {
 exports[`Orchestrion JS Transformer > should transform TypeScript with source map correctly 1`] = `
 {
   "code": "import { tracingChannel as tr_ch_apm_tracingChannel } from "diagnostics_channel";
+const tr_ch_apm$up_privateSend = tr_ch_apm_tracingChannel("orchestrion:one:up:privateSend");
 const tr_ch_apm$up_asyncGet = tr_ch_apm_tracingChannel("orchestrion:one:up:asyncGet");
 const tr_ch_apm$up_asyncFetch = tr_ch_apm_tracingChannel("orchestrion:one:up:asyncFetch");
 const tr_ch_apm$up_fetch = tr_ch_apm_tracingChannel("orchestrion:one:up:fetch");
@@ -237,8 +268,22 @@ export class Up {
             moduleVersion: "1.0.0"
         });
     }
+    async #send() {
+        const __apm$original_args = arguments;
+        const __apm$traced = async ()=>{
+            const __apm$wrapped = async ()=>{};
+            return __apm$wrapped.apply(null, __apm$original_args);
+        };
+        if (!tr_ch_apm$up_privateSend.hasSubscribers) return __apm$traced();
+        return tr_ch_apm$up_privateSend.tracePromise(__apm$traced, {
+            arguments,
+            self: this,
+            moduleVersion: "1.0.0"
+        });
+    }
+    async send() {}
 }
 ",
-  "map": "{"version":3,"file":"module.js","sources":["module.ts"],"sourceRoot":"","names":[],"mappings":";;;;;AAEA,MAAM,CAAA,MAAO,EAAE;IACX,aAAA;;;;;;;;;YACI,OAAO,CAAC,GAAG,CAAC,aAAa,CAAC,CAAC;;;;;;;;;;;;;;;;IAC/B,CAAC;IACD,KAAK,IAAS,EAAA;;;mCAAR;gBACF,OAAO,CAAC,GAAG,CAAC,OAAO,CAAC,CAAC;;;;;;;;;;IACzB,CAAC;IACD,KAAK,CAAC,UAAU,GAAA;;;;;;;;;;;;IAAU,CAAC;IAC3B,GAAG,GAAA;;;;;;;;;;;;IAAU,CAAC;CACjB"}",
+  "map": "{"version":3,"file":"module.js","sources":["module.ts"],"sourceRoot":"","names":[],"mappings":";;;;;;AAEA,MAAM,CAAA,MAAO,EAAE;IACX,aAAA;;;;;;;;;YACI,OAAO,CAAC,GAAG,CAAC,aAAa,CAAC,CAAC;;;;;;;;;;;;;;;;IAC/B,CAAC;IACD,KAAK,IAAS,EAAA;;;mCAAR;gBACF,OAAO,CAAC,GAAG,CAAC,OAAO,CAAC,CAAC;YACzB,CAAC;;;;;;;;;;IACD,KAAK,CAAC,UAAU,GAAA;;;;;;;;;;;;IAAU,CAAC;IAC3B,GAAG,GAAA;;;;;;;;;;;;IAAU,CAAC;IACd,KAAK,EAAC,IAAK;;;;;;;;;;;;IAAU,CAAC;IACtB,KAAK,CAAC,IAAI,GAAA,CAAU,CAAC;CACxB"}",
 }
 `;

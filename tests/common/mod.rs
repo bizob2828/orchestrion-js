@@ -13,10 +13,18 @@ static TEST_MODULE_NAME: &str = "undici";
 static TEST_MODULE_PATH: &str = "index.mjs";
 
 pub fn transpile_and_test(test_file: &str, mjs: bool, config: Config) {
+    transpile_and_test_with_path(test_file, mjs, config, PathBuf::from(TEST_MODULE_PATH));
+}
+
+pub fn transpile_and_test_with_path(
+    test_file: &str,
+    mjs: bool,
+    config: Config,
+    file_path: PathBuf,
+) {
     let test_file = PathBuf::from(test_file);
     let test_dir = test_file.parent().expect("Couldn't find test directory");
 
-    let file_path = PathBuf::from("index.mjs");
     let instrumentor = Instrumentor::new(config);
     let mut instrumentations =
         instrumentor.get_matching_instrumentations(TEST_MODULE_NAME, "0.0.1", &file_path);
@@ -45,4 +53,10 @@ pub fn transpile_and_test(test_file: &str, mjs: bool, config: Config) {
 
 pub fn test_module_matcher() -> ModuleMatcher {
     ModuleMatcher::new(TEST_MODULE_NAME, ">=0.0.1", TEST_MODULE_PATH).unwrap()
+}
+
+static WINDOWS_TEST_MODULE_PATH: &str = "lib/index.mjs";
+
+pub fn windows_module_matcher() -> ModuleMatcher {
+    ModuleMatcher::new(TEST_MODULE_NAME, ">=0.0.1", WINDOWS_TEST_MODULE_PATH).unwrap()
 }

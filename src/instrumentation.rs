@@ -4,7 +4,7 @@
  **/
 use crate::config::InstrumentationConfig;
 use std::collections::HashMap;
-use std::path::PathBuf;
+use std::path::Path;
 use swc_core::common::{Span, SyntaxContext};
 use swc_core::ecma::{
     ast::{
@@ -244,7 +244,7 @@ impl Instrumentation {
     }
 
     #[must_use]
-    pub fn matches(&self, module_name: &str, version: &str, file_path: &PathBuf) -> bool {
+    pub fn matches(&self, module_name: &str, version: &str, file_path: &Path) -> bool {
         self.config.matches(module_name, version, file_path)
     }
 

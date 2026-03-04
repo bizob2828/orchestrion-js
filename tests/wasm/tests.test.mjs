@@ -166,3 +166,42 @@ export class Up {
         }).toThrow('Failed to find injection points for: ["constructor", "fetch", "asyncFetch", "get", "send"]');
     });
 });
+
+describe('windows style paths', () => {
+    const instrumentor = create([
+        {
+            channelName: "up:fetch",
+            module: { name: "one", versionRange: ">=1", filePath: "path/to/file.js" },
+            functionQuery: {
+                className: "Up",
+                methodName: "fetch",
+                kind: "Sync",
+            },
+        },
+    ]);
+
+    const matchedTransforms = instrumentor.getTransformer(
+        "one",
+        "1.0.0",
+        "path\\to\\file.js",
+    );
+    
+  test('should get transformer for matching module', () => {
+        expect(matchedTransforms).toBeTruthy();
+    });
+
+    test('should transform ESM module correctly', () => {
+        const originalEsm = `export class Up {
+	constructor() {
+		console.log('constructor')
+	}
+
+	fetch() {
+		console.log('fetch')
+	}
+}`;
+
+        const output = matchedTransforms.transform(originalEsm, 'esm');
+        expect(output).toMatchSnapshot();
+    });
+})

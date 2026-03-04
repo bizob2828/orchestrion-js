@@ -139,7 +139,7 @@ type FunctionQuery =
 type ModuleMatcher = {
     name: string; // Module name
     versionRange: string; // Matching semver range
-    filePath: string; // Path to the file from the module root
+    filePath: string; // Relative Unix-style path to the file from the module root (e.g. "lib/index.js")
 };
 ```
 
@@ -177,7 +177,7 @@ matching instrumentation configurations.
 
 - `module_name` - Name of the module.
 - `version` - Version of the module.
-- `file_path` - Path to the file from the module root.
+- `file_path` - Relative Unix-style path to the file from the module root (e.g. `"lib/index.js"`). Windows-style backslash paths are also accepted and will be normalized automatically.
 
 ```ts
 free(): void;

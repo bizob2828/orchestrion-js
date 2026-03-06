@@ -4,7 +4,7 @@
  **/
 use crate::function_query::FunctionQuery;
 use nodejs_semver::{Range, SemverError, Version};
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 
 #[cfg_attr(feature = "wasm", derive(tsify::Tsify))]
 #[cfg_attr(
@@ -37,7 +37,7 @@ impl ModuleMatcher {
     }
 
     #[must_use]
-    pub fn matches(&self, module_name: &str, version: &str, file_path: &PathBuf) -> bool {
+    pub fn matches(&self, module_name: &str, version: &str, file_path: &Path) -> bool {
         let version: Version = match version.parse() {
             Ok(v) => v,
             Err(e) => {
@@ -46,9 +46,11 @@ impl ModuleMatcher {
             }
         };
 
+        // convert windows paths to unix before comparing against `self.file_path`
+        let normalized_path = PathBuf::from(file_path.to_string_lossy().replace('\\', "/"));
         self.name == module_name
             && version.satisfies(&self.version_range)
-            && self.file_path == *file_path
+            && self.file_path == normalized_path
     }
 }
 
@@ -120,7 +122,7 @@ impl Config {
 
 impl InstrumentationConfig {
     #[must_use]
-    pub fn matches(&self, module_name: &str, version: &str, file_path: &PathBuf) -> bool {
+    pub fn matches(&self, module_name: &str, version: &str, file_path: &Path) -> bool {
         self.module.matches(module_name, version, file_path)
     }
 }

@@ -29,3 +29,4 @@ mod polyfill_mjs;
 mod private_method_cjs;
 mod var_class_export_alias_mjs;
 mod var_named_class_export_alias_mjs;
+mod windows_path;

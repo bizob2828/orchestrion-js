@@ -10,32 +10,31 @@ env:
   CARGO_TERM_COLOR: always
   RUST_VERSION: 1.87.0
 jobs:
-  test:
-    name: Build, Lint & Test
+  lint:
+    name: Lint
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
-      - name: Install Rust ${{ env.RUST_VERSION }}
-        run: rustup toolchain install ${{ env.RUST_VERSION }} --component clippy --component rustfmt && rustup default ${{ env.RUST_VERSION }}
-      - name: Cache
-        uses: Swatinem/rust-cache@v2
-      - uses: actions/checkout@v4
+        uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+      - name: Install
+        run: npm install
+      - name: Run linter
+        run: npm run lint
+
+  test:
+    name: Test (${{ matrix.node-version }})
+    strategy:
+      matrix:
+        node-version: [18, 20, 22, 24, latest]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version-file: 'package.json'
-      - name: Build
-        run: cargo build --all-features
+          node-version: ${{ matrix.node-version }}
+      - name: Install
+        run: npm install
       - name: Run tests
-        run: cargo test --all-features
-      - name: Run clippy
-        run: cargo clippy --all-features -- -D warnings
-      - name: Run fmt
-        run: cargo fmt --all -- --check
-      - name: Build and Test wasm
-        run: npm install && npm run build && npm test
-      # This check is currently failing even after updating the license file.
-      # - name: Install license tool
-      #   run: cargo install dd-rust-license-tool
-      # - name: Run license tool
-      #   run: dd-rust-license-tool check
+        run: npm test

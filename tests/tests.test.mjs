@@ -55,7 +55,7 @@ describe('arguments_mutation', () => {
         functionQuery: { functionName: 'fetch_simple', kind: 'Sync' },
       },
       {
-        channelName: 'fetch_complex',
+        channelName: 'fetch.complex',
         module: { name: TEST_MODULE_NAME, versionRange: '>=0.0.1', filePath: TEST_MODULE_PATH },
         functionQuery: { functionName: 'fetch_complex', kind: 'Sync' },
       },
@@ -115,7 +115,7 @@ describe('decl_cjs', () => {
   test('instruments async function declaration (cjs)', () => {
     runTest('decl_cjs', [
       {
-        channelName: 'fetch_decl',
+        channelName: 'fetch.decl',
         module: { name: TEST_MODULE_NAME, versionRange: '>=0.0.1', filePath: TEST_MODULE_PATH },
         functionQuery: { functionName: 'fetch', kind: 'Async' },
       },
@@ -264,7 +264,7 @@ describe('callback_cjs', () => {
   test('instruments callback-style function', () => {
     runTest('callback_cjs', [
       {
-        channelName: 'fetch_cb',
+        channelName: 'fetch.cb',
         module: { name: TEST_MODULE_NAME, versionRange: '>=0.0.1', filePath: TEST_MODULE_PATH },
         functionQuery: { functionName: 'fetch', kind: 'Callback' },
       },

@@ -1,6 +1,6 @@
 const { fetch } = require('./instrumented.js');
 const { assert, getContext } = require('../common/preamble.js');
-const context = getContext('orchestrion:undici:fetch_cb');
+const context = getContext('orchestrion:undici:fetch.cb');
 (async () => {
   const result = await new Promise((resolve, reject) => {
     fetch('https://example.com', (err, val) => {

@@ -22,7 +22,7 @@ const handler = {
 };
 
 tracingChannel('orchestrion:undici:fetch_simple').subscribe(handler);
-tracingChannel('orchestrion:undici:fetch_complex').subscribe(handler);
+tracingChannel('orchestrion:undici:fetch.complex').subscribe(handler);
 
 assert.strictEqual(fetch_simple.length, 2);
 assert.strictEqual(fetch_complex.length, 2);

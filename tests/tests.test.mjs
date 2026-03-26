@@ -504,3 +504,15 @@ describe('source_map', () => {
     expect(original.column).toBe(originalReturnColumn)
   })
 })
+
+describe('wrap_promise_non_promise', () => {
+  test('instruments sync function with wrapPromise and properly returns the result via context', () => {
+    runTest('wrap_promise_non_promise', [
+      {
+        channelName: 'fetch_nonpromise',
+        module: { name: TEST_MODULE_NAME, versionRange: '>=0.0.1', filePath: TEST_MODULE_PATH },
+        functionQuery: { functionName: 'fetch', kind: 'Async' }
+      }
+    ])
+  })
+})

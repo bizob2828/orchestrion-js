@@ -13,7 +13,7 @@ function getContext (channelName) {
       context.start = true;
     },
     end(message) {
-      message.context.end = true;
+      message.context.end = message.result ?? true
       // Handle end message
     },
     asyncStart(message) {

@@ -517,3 +517,15 @@ describe('wrap_promise_non_promise', () => {
     ])
   })
 })
+
+describe('IIFE with class', () => {
+  test('instruments a class within a IIFE, variable same name as class', () => {
+    runTest('iife_nested_class', [
+      {
+        channelName: 'register',
+        module: { name: TEST_MODULE_NAME, versionRange: '>=0.0.1', filePath: TEST_MODULE_PATH },
+        functionQuery: { className: 'Server', methodName: 'register', kind: 'Sync' }
+      }
+    ])
+  })
+})

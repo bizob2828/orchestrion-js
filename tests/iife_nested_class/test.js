@@ -1,0 +1,12 @@
+const { Server } = require('./instrumented.js')
+const { assert, getContext } = require('../common/preamble.js')
+const context = getContext('orchestrion:undici:register');
+(async () => {
+  const server = new Server()
+  const result = server.register()
+  assert.strictEqual(result, 1)
+  assert.deepStrictEqual(context, {
+    start: true,
+    end: 1,
+  })
+})()

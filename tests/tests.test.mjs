@@ -638,6 +638,50 @@ describe('arrow_arguments_cjs', () => {
         channelName: 'Connection_fetchFunction',
         module: { name: TEST_MODULE_NAME, versionRange: '>=0.0.1', filePath: TEST_MODULE_PATH },
         functionQuery: { objectName: 'this', propertyName: 'fetchFunction', kind: 'Async' },
+      }
+    ])
+  })
+})
+
+describe('iterator_cjs', () => {
+  test('instruments sync generator and patches next/throw/return on the returned iterator', () => {
+    runTest('iterator_cjs', [
+      {
+        channelName: 'generate_iter',
+        module: { name: TEST_MODULE_NAME, versionRange: '>=0.0.1', filePath: TEST_MODULE_PATH },
+        functionQuery: { functionName: 'generate', kind: 'Sync', returnKind: 'Iterator' },
+      },
+      {
+        channelName: 'generate_iter_async',
+        module: { name: TEST_MODULE_NAME, versionRange: '>=0.0.1', filePath: TEST_MODULE_PATH },
+        functionQuery: { functionName: 'generateFromPromise', kind: 'Async', returnKind: 'Iterator' },
+      },
+      {
+        channelName: 'generate_iter_cb',
+        module: { name: TEST_MODULE_NAME, versionRange: '>=0.0.1', filePath: TEST_MODULE_PATH },
+        functionQuery: { functionName: 'generateCallback', kind: 'Callback', returnKind: 'Iterator' },
+      },
+      {
+        channelName: 'generate_iter_auto',
+        module: { name: TEST_MODULE_NAME, versionRange: '>=0.0.1', filePath: TEST_MODULE_PATH },
+        functionQuery: { functionName: 'generateAuto', kind: 'Auto', returnKind: 'Iterator' },
+      },
+    ])
+  })
+})
+
+describe('async_iterator_cjs', () => {
+  test('instruments async generator and patches next/throw/return on the returned async iterator', () => {
+    runTest('async_iterator_cjs', [
+      {
+        channelName: 'generate_async_iter',
+        module: { name: TEST_MODULE_NAME, versionRange: '>=0.0.1', filePath: TEST_MODULE_PATH },
+        functionQuery: { functionName: 'generate', kind: 'Sync', returnKind: 'AsyncIterator' },
+      },
+      {
+        channelName: 'generate_async_iter_async',
+        module: { name: TEST_MODULE_NAME, versionRange: '>=0.0.1', filePath: TEST_MODULE_PATH },
+        functionQuery: { functionName: 'generateFromPromise', kind: 'Async', returnKind: 'AsyncIterator' },
       },
     ])
   })
